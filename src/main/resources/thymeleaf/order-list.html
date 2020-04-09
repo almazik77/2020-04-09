@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title> Orders</title>
+</head>
+<body>
+<div class="container">
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col"> begin</th>
+            <th scope="col"> end</th>
+            <th scope="col"> is payed</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${orders.empty}">
+            <td colspan="3"> No orders</td>
+        </tr>
+        <tr th:each="order : ${orders}">
+            <td><span th:text="${order.beginDate}"> begin Time </span></td>
+            <td><span th:text="${order.endDate}"> end Time </span></td>
+            <td><span th:text="${order.isPayed()}"> is Payed </span></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

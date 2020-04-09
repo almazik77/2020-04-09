@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title> adding car </title>
+</head>
+<body>
+<div class="container">
+    <h1>Dobavit' car</h1>
+    <br>
+    <form th:action="@{/cars/add}" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="model">Model: </label>
+            <input name="model" type="text" id="model" class="form-control">
+        </div>
+
+        <div class="form-group">
+            <label for="cost">Cost: </label>
+            <input id="cost" name="cost" type="text" class="form-control">
+        </div>
+
+        <div class="form-group">
+            <label for="uploadingFiles">Files: </label>
+            <input type="file" id="uploadingFiles" name="uploadingFiles" onchange="updateSize();" multiple
+                   required class="form-control-file"/>
+            selected files: <span id="fileNum">0</span>;
+            total size: <span id="fileSize">0</span>
+        </div>
+        <input type="hidden" id="file_hidden">
+
+        <input type="submit" placeholder="dobavit'" class="btn btn-primary">
+    </form>
+</div>
+</body>
+</html>
+
+<script>
+    function updateSize() {
+        var nBytes = 0,
+            oFiles = document.getElementById("uploadingFiles").files,
+            nFiles = oFiles.length;
+        for (var nFileId = 0; nFileId < nFiles; nFileId++) {
+            nBytes += oFiles[nFileId].size;
+        }
+
+        var sOutput = nBytes + " bytes";
+        // optional code for multiples approximation
+        for (var aMultiples = ["KiB", "MiB", "GiB", "TiB", "PiB", "EiB", "ZiB", "YiB"], nMultiple = 0, nApprox = nBytes / 1024; nApprox > 1; nApprox /= 1024, nMultiple++) {
+            sOutput = nApprox.toFixed(3) + " " + aMultiples[nMultiple] + " (" + nBytes + " bytes)";
+        }
+        // end of optional code
+
+        document.getElementById("fileNum").innerHTML = nFiles;
+        document.getElementById("fileSize").innerHTML = sOutput;
+    }
+</script>
