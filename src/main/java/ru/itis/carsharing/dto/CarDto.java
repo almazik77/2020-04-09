@@ -6,6 +6,7 @@ import ru.itis.carsharing.models.FileInfo;
 import ru.itis.carsharing.models.Order;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Getter
@@ -23,9 +24,9 @@ public class CarDto {
 
     private UserDto owner;
 
-    private List<FileInfo> fileList;
+    private Set<FileInfo> fileSet;
 
-    private List<Order> orderList;
+    private Set<Order> orderSet;
 
     public static CarDto from(Car car) {
         return CarDto.builder()
@@ -33,7 +34,8 @@ public class CarDto {
                 .model(car.getModel())
                 .cost(car.getCost())
                 .owner(UserDto.from(car.getOwner()))
-                .fileList(car.getFileList())
+                .fileSet(car.getFileSet())
+                .orderSet(car.getOrderSet())
                 .build();
     }
 

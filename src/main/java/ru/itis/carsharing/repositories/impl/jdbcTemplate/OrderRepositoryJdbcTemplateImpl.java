@@ -12,8 +12,10 @@ import ru.itis.carsharing.repositories.UserRepository;
 
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public class OrderRepositoryJdbcTemplateImpl implements OrderRepository {
 
@@ -81,12 +83,12 @@ public class OrderRepositoryJdbcTemplateImpl implements OrderRepository {
 
 
     @Override
-    public List<Order> findByCarId(Long carId) {
-        return jdbcTemplate.query(SQL_FIND_BY_CAR_ID, new Object[]{carId}, orderRowMapper);
+    public Set<Order> findByCarId(Long carId) {
+        return new HashSet<>(jdbcTemplate.query(SQL_FIND_BY_CAR_ID, new Object[]{carId}, orderRowMapper));
     }
 
     @Override
-    public List<Order> findByUserId(long id) {
+    public Set<Order> findByUserId(long id) {
         // TODO
         return null;
     }

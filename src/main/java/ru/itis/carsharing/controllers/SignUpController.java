@@ -14,12 +14,13 @@ public class SignUpController {
     @Autowired
     private UserService userService;
 
+    @PreAuthorize("anonymous")
     @GetMapping("/signUp")
     public String getSignUpPage() {
         return "sign-up";
     }
 
-    @PreAuthorize("permitAll()")
+    @PreAuthorize("anonymous")
     @PostMapping("/signUp")
     public String signUp(@ModelAttribute SignUpForm signUpForm) {
         userService.signUp(signUpForm);

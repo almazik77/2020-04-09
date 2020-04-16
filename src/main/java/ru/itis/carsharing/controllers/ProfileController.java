@@ -28,7 +28,7 @@ public class ProfileController {
         return "profile";
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/profile/{user-id}")
     public String getProfilePageOf(@PathVariable("user-id") Long userId, Model model) {
         UserDto user = userService.findOne(userId);

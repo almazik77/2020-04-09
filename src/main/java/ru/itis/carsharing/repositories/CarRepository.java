@@ -2,8 +2,8 @@ package ru.itis.carsharing.repositories;
 
 import ru.itis.carsharing.models.Car;
 
-import java.util.List;
+import java.util.Set;
 
 public interface CarRepository extends CrudRepository<Long, Car> {
-    List<Car> findByOwnerId(Long id);
+    Set<Car> findByOwnerId(Long id);
 }

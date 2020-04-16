@@ -12,8 +12,11 @@ import ru.itis.carsharing.repositories.OrderRepository;
 import ru.itis.carsharing.repositories.UserRepository;
 
 import java.sql.PreparedStatement;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class CarRepositoryJdbcTemplateImpl implements CarRepository {
 
@@ -44,9 +47,9 @@ public class CarRepositoryJdbcTemplateImpl implements CarRepository {
                 .model(row.getString("model"))
                 .id(row.getLong("id"))
                 .owner(userRepository.find(Long.toString(row.getLong("owner_id"))).get())
-                .orderList(orderRepository.findByCarId(row.getLong("id")))
+                .orderSet(orderRepository.findByCarId(row.getLong("id")))
                 .cost(row.getLong("cost"))
-                .fileList(fileStorageRepository.findByCarId(row.getLong("id")))
+                .fileSet(fileStorageRepository.findByCarId(row.getLong("id")))
                 .build();
     };
 
@@ -99,7 +102,7 @@ public class CarRepositoryJdbcTemplateImpl implements CarRepository {
     }
 
     @Override
-    public List<Car> findByOwnerId(Long id) {
-        return jdbcTemplate.query(SQL_FIND_ALL_BY_USER_ID, new Object[]{id}, carRowMapper);
+    public Set<Car> findByOwnerId(Long id) {
+        return new HashSet<>(jdbcTemplate.query(SQL_FIND_ALL_BY_USER_ID, new Object[]{id}, carRowMapper));
     }
 }

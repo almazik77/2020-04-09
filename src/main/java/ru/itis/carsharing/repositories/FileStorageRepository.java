@@ -2,13 +2,13 @@ package ru.itis.carsharing.repositories;
 
 import ru.itis.carsharing.models.FileInfo;
 
-import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public interface FileStorageRepository extends CrudRepository<Long, FileInfo> {
     Optional<FileInfo> find(String name);
 
     Optional<FileInfo> findOneByStorageFileName(String storageName);
 
-    List<FileInfo> findByCarId(Long id);
+    Set<FileInfo> findByCarId(Long id);
 }

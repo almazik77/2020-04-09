@@ -1,4 +1,5 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="https://www.thymeleaf.org"
       lang="en">
 <head>
     <meta charset="UTF-8">
@@ -10,6 +11,42 @@
     <title> ordering car </title>
 </head>
 <body>
-<!-- TODO -->
+<div>
+    <span th:text="${car.model}"> Model </span>
+    <span th:text="${car.cost}"> Cost </span>
+</div>
+<div>
+    <a th:href="@{/profile/{id}(id=${car.owner.id})}">
+        <span th:text="${car.owner.firstName} + ' ' + ${car.owner.lastName}"> Owner </span>
+    </a>
+</div>
+<form th:action="@{/cars/{id}/order(id=${car.id})}" th:method="post">
+
+    <div class="form-group">
+        <label> From :
+            <input class="form-control" type="date" name="beginDate" required/>
+        </label>
+    </div>
+    <div class="form-group">
+        <label> TO :
+            <input class="form-control" type="date" name="endDate" required/>
+        </label>
+    </div>
+    <input type="submit" value="create Order" class="btn btn-primary"/>
+</form>
+<div>
+    <ul>
+        <li th:each="order : ${car.orderSet}">
+            <ul>
+                <li>
+                    <span th:text="${order.beginDate}">beginDate</span>
+                </li>
+                <li>
+                    <span th:text="${order.endDate}">endDate</span>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>
 </body>
 </html>

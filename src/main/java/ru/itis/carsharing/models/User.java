@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "usr")
@@ -33,8 +34,8 @@ public class User {
     private Role role;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "owner", cascade = CascadeType.ALL)
-    private List<Car> carList;
+    private Set<Car> carSet;
 
-    @OneToMany(mappedBy = "user")
-    private List<Order> orderList;
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
+    private Set<Order> orderSet;
 }

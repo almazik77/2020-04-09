@@ -16,5 +16,8 @@
     <div th:text="${user.lastName}"></div>
     <div th:text="${user.email}"></div>
 </div>
+<form th:action="@{/logout}" method="post">
+    <input type="submit" th:text="logout">
+</form>
 </body>
 </html>

@@ -13,6 +13,8 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 public class OrderRepositoryJpaImpl implements OrderRepository {
@@ -52,18 +54,18 @@ public class OrderRepositoryJpaImpl implements OrderRepository {
 
     @Override
     @Transactional
-    public List<Order> findByCarId(Long carId) {
+    public Set<Order> findByCarId(Long carId) {
         TypedQuery<Order> query = entityManager.createQuery("select o from Order o where o.car = :car", Order.class);
         query.setParameter("car", carRepository.find(carId));
-        return query.getResultList();
+        return query.getResultStream().collect(Collectors.toSet());
     }
 
     @Override
     @Transactional
-    public List<Order> findByUserId(long id) {
+    public Set<Order> findByUserId(long id) {
         TypedQuery<Order> query = entityManager.createQuery("select o from Order o where o.user = :user", Order.class);
         query.setParameter("user", userRepository.find(id));
-        return query.getResultList();
+        return query.getResultStream().collect(Collectors.toSet());
     }
 
     @Override

@@ -15,7 +15,10 @@ import ru.itis.carsharing.security.details.UserDetailsImpl;
 import ru.itis.carsharing.services.CarService;
 import ru.itis.carsharing.services.FilesService;
 
+import java.time.LocalDate;
+import java.time.chrono.ChronoLocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class CarController {
@@ -40,6 +43,7 @@ public class CarController {
 
         Car car = Car.builder()
                 .model(carForm.getModel())
+                .cost(carForm.getCost())
                 .owner(user)
                 .build();
 
@@ -64,6 +68,8 @@ public class CarController {
     @GetMapping("/cars/{car-id}")
     public String getCarPage(@PathVariable("car-id") Long carId, Model model) {
         CarDto carDto = carService.find(carId);
+        if (carDto.getOrderSet() != null)
+            carDto.setOrderSet(carDto.getOrderSet().stream().filter(order -> order.getEndDate().isAfter(ChronoLocalDate.from((LocalDate.now())))).collect(Collectors.toSet()));
         model.addAttribute("car", carDto);
         return "car-profile";
     }

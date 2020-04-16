@@ -12,6 +12,8 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 public class CarRepositoryJpaImpl implements CarRepository {
@@ -24,19 +26,14 @@ public class CarRepositoryJpaImpl implements CarRepository {
     @Transactional
     @Override
     public Optional<Car> find(Long id) {
-        return Optional.of(entityManager.find(Car.class, id));
+        Car car = entityManager.find(Car.class, id);
+        return Optional.of(car);
     }
 
     @Override
     @Transactional
     public List<Car> findAll() {
         return entityManager.createQuery("select c from Car c", Car.class).getResultList();
-    }
-
-    @Transactional
-    @Override
-    public void update(Car model) {
-        entityManager.merge(model);
     }
 
     @Transactional
@@ -51,11 +48,17 @@ public class CarRepositoryJpaImpl implements CarRepository {
         entityManager.remove(find(id));
     }
 
+    @Transactional
+    @Override
+    public void update(Car model) {
+        entityManager.merge(model);
+    }
+
     @Override
     @Transactional
-    public List<Car> findByOwnerId(Long id) {
+    public Set<Car> findByOwnerId(Long id) {
         TypedQuery<Car> query = entityManager.createQuery("select c from Car c where c.owner = :owner", Car.class);
         query.setParameter("owner", userRepository.find(id));
-        return query.getResultList();
+        return query.getResultStream().collect(Collectors.toSet());
     }
 }

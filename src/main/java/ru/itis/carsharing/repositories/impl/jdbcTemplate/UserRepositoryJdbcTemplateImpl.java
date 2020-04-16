@@ -52,8 +52,8 @@ public class UserRepositoryJdbcTemplateImpl implements UserRepository {
                 .role(Role.valueOf(row.getString("role")))
                 .state(State.valueOf(row.getString("state")))
                 .hashPassword(row.getString("hashpassword"))
-                .carList(carRepository.findByOwnerId(row.getLong("id")))
-                .orderList(orderRepository.findByUserId(row.getLong("id")))
+                .carSet(carRepository.findByOwnerId(row.getLong("id")))
+                .orderSet(orderRepository.findByUserId(row.getLong("id")))
                 .build();
     };
 

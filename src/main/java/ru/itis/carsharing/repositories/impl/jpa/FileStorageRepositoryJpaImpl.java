@@ -12,6 +12,8 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 public class FileStorageRepositoryJpaImpl implements FileStorageRepository {
@@ -37,10 +39,10 @@ public class FileStorageRepositoryJpaImpl implements FileStorageRepository {
 
     @Override
     @Transactional
-    public List<FileInfo> findByCarId(Long id) {
+    public Set<FileInfo> findByCarId(Long id) {
         TypedQuery<FileInfo> query = entityManager.createQuery("select f from FileInfo f WHERE f.car = :car", FileInfo.class);
         query.setParameter("car", carRepository.find(id));
-        return query.getResultList();
+        return query.getResultStream().collect(Collectors.toSet());
     }
 
     @Override

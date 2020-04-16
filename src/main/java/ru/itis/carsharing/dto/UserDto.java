@@ -7,6 +7,7 @@ import ru.itis.carsharing.models.Order;
 import ru.itis.carsharing.models.User;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Data
@@ -19,8 +20,8 @@ public class UserDto {
     private String firstName;
     private String lastName;
 
-    private List<Order> orderList;
-    private List<Car> carList;
+    private Set<Order> orderSet;
+    private Set<Car> carSet;
 
     public static UserDto from(User user) {
         return UserDto.builder()
@@ -28,8 +29,8 @@ public class UserDto {
                 .email(user.getEmail())
                 .lastName(user.getLastName())
                 .firstName(user.getFirstName())
-                .carList(user.getCarList())
-                .orderList(user.getOrderList())
+                .carSet(user.getCarSet())
+                .orderSet(user.getOrderSet())
                 .build();
     }
 

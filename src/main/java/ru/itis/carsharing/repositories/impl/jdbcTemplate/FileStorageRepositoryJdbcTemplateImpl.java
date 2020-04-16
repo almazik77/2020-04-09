@@ -11,8 +11,10 @@ import ru.itis.carsharing.repositories.CarRepository;
 import ru.itis.carsharing.repositories.FileStorageRepository;
 
 import java.sql.PreparedStatement;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public class FileStorageRepositoryJdbcTemplateImpl implements FileStorageRepository {
 
@@ -74,8 +76,8 @@ public class FileStorageRepositoryJdbcTemplateImpl implements FileStorageReposit
     }
 
     @Override
-    public List<FileInfo> findByCarId(Long id) {
-        return jdbcTemplate.query(SQL_FIND_BY_CAR_ID, new Object[]{id}, fileInfoRowMapper);
+    public Set<FileInfo> findByCarId(Long id) {
+        return new HashSet<>(jdbcTemplate.query(SQL_FIND_BY_CAR_ID, new Object[]{id}, fileInfoRowMapper));
     }
 
     @Override

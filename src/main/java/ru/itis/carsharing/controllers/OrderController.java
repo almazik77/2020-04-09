@@ -1,6 +1,7 @@
 package ru.itis.carsharing.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -18,7 +19,9 @@ import ru.itis.carsharing.services.CarService;
 import ru.itis.carsharing.services.OrderService;
 import ru.itis.carsharing.services.UserService;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 public class OrderController {
@@ -31,17 +34,11 @@ public class OrderController {
     @Autowired
     private UserService userService;
 
-    @PreAuthorize("isAuthenticated()")
-    @GetMapping("/cars/{car-id}/order")
-    public String getOrderPage(@PathVariable(name = "car-id") Long carId, Model model) {
-        model.addAttribute("car", carService.find(carId));
-        return "order";
-    }
-
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/cars/{car-id}/order")
-    public String createOrder(@PathVariable("car-id") Long carId, @ModelAttribute OrderForm form, Authentication authentication) {
+    public String createOrder(@PathVariable("car-id") Long carId, @ModelAttribute OrderForm form, Authentication authentication, HttpServletRequest request) {
+
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         User user = userDetails.getUser();
 
@@ -53,10 +50,10 @@ public class OrderController {
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/user/{user-id}/orders")
     public String getOrdersPage(@PathVariable("user-id") Long userId, Model model) {
-        List<Order> orderList = userService.findOne(userId).getOrderList();
+        Set<Order> orderSet = userService.findOne(userId).getOrderSet();
         UserDto userDto = userService.findOne(userId);
         model.addAttribute("user", userDto);
-        model.addAttribute("orders", orderList);
+        model.addAttribute("orders", orderSet);
         return "order-list";
     }
 }
